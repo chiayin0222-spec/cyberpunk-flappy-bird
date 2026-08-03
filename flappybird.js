@@ -131,13 +131,7 @@ function update() {
     }
 
     //tokens and score
-    context.fillStyle = "white";
-    context.font="bold 20px 'Courier New'";
-    context.fillText("TOKENS: " + tokens, 8, 28);
-    context.font="32px sans-serif";
-    context.fillText("SCORE: " + score, 8, 66);
-    context.font="bold 18px 'Courier New'";
-    context.fillText("HIGH SCORE: " + highScore, 8, 94);
+    drawHud();
 
     if (gameOver) {
         context.font="32px sans-serif";
@@ -148,28 +142,61 @@ function update() {
 function drawLaserObstacle(pipe) {
     context.save();
 
-    context.fillStyle = "rgba(255, 0, 170, 0.16)";
-    context.fillRect(pipe.x, pipe.y, pipe.width, pipe.height);
+    let isTopPipe = pipe.y < 0;
+    let lipHeight = 24;
+    let lipY = isTopPipe ? pipe.y + pipe.height - lipHeight : pipe.y;
+    let bodyGradient = context.createLinearGradient(pipe.x, 0, pipe.x + pipe.width, 0);
+    bodyGradient.addColorStop(0, "#7b075f");
+    bodyGradient.addColorStop(0.18, "#ff23c8");
+    bodyGradient.addColorStop(0.5, "#ff8bea");
+    bodyGradient.addColorStop(0.76, "#e600aa");
+    bodyGradient.addColorStop(1, "#4a063f");
 
-    context.shadowColor = "#ff00aa";
-    context.shadowBlur = 16;
-    context.strokeStyle = "#ff00aa";
-    context.lineWidth = 4;
-    context.strokeRect(
-        pipe.x + 2,
-        pipe.y + 2,
-        pipe.width - 4,
-        pipe.height - 4
-    );
+    context.shadowColor = "#ff2bd6";
+    context.shadowBlur = 18;
+    context.fillStyle = bodyGradient;
+    context.fillRect(pipe.x + 7, pipe.y, pipe.width - 14, pipe.height);
 
-    context.shadowBlur = 10;
-    context.fillStyle = "#ff4fd8";
-    context.fillRect(pipe.x + pipe.width/2 - 3, pipe.y, 6, pipe.height);
+    context.strokeStyle = "#ff63e2";
+    context.lineWidth = 3;
+    context.strokeRect(pipe.x + 8.5, pipe.y + 1.5, pipe.width - 17, pipe.height - 3);
 
-    context.shadowBlur = 4;
-    context.fillStyle = "#fff0fc";
-    context.fillRect(pipe.x + pipe.width/2 - 1, pipe.y, 2, pipe.height);
+    context.shadowBlur = 22;
+    context.fillStyle = bodyGradient;
+    context.fillRect(pipe.x, lipY, pipe.width, lipHeight);
+    context.strokeStyle = "#ff8bea";
+    context.strokeRect(pipe.x + 1.5, lipY + 1.5, pipe.width - 3, lipHeight - 3);
 
+    context.shadowBlur = 7;
+    context.fillStyle = "rgba(255, 240, 252, 0.8)";
+    context.fillRect(pipe.x + 13, pipe.y + 3, 3, pipe.height - 6);
+    context.fillStyle = "rgba(48, 0, 46, 0.5)";
+    context.fillRect(pipe.x + pipe.width - 15, pipe.y + 3, 5, pipe.height - 6);
+
+    context.restore();
+}
+
+function drawHud() {
+    context.save();
+    context.fillStyle = "rgba(4, 2, 20, 0.72)";
+    context.strokeStyle = "rgba(32, 246, 255, 0.8)";
+    context.shadowColor = "#20f6ff";
+    context.shadowBlur = 8;
+    context.lineWidth = 1;
+    context.fillRect(7, 7, 192, 94);
+    context.strokeRect(7.5, 7.5, 191, 93);
+
+    context.shadowColor = "#ff2bd6";
+    context.fillStyle = "#ff8bea";
+    context.font = "bold 17px 'Courier New'";
+    context.fillText("TOKENS // " + tokens, 16, 31);
+    context.fillStyle = "#ffffff";
+    context.font = "bold 29px 'Courier New'";
+    context.fillText("SCORE " + score, 16, 66);
+    context.shadowColor = "#20f6ff";
+    context.fillStyle = "#9ffbff";
+    context.font = "bold 15px 'Courier New'";
+    context.fillText("HIGH // " + highScore, 16, 90);
     context.restore();
 }
 
@@ -194,6 +221,13 @@ function drawSpaceship() {
     context.strokeStyle = "#00eeff";
     context.lineWidth = 2;
     context.stroke();
+
+    context.beginPath();
+    context.arc(x + width * 0.62, y + height/2, 3, 0, Math.PI * 2);
+    context.fillStyle = "#fff5ff";
+    context.shadowColor = "#ff2bd6";
+    context.shadowBlur = 12;
+    context.fill();
 
     context.beginPath();
     context.moveTo(x + width/4, y + height/2);

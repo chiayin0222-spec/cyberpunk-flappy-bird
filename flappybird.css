@@ -4,6 +4,8 @@
     --neon-cyan: #20f6ff;
     --deep-purple: #070314;
     --glass: rgba(18, 9, 42, 0.58);
+    --neon-violet: #9d4dff;
+    --panel-dark: rgba(5, 2, 20, 0.82);
 }
 
 * {
@@ -19,9 +21,10 @@ body {
     font-family: 'Courier New', Courier, monospace;
     text-align: center;
     background:
-        radial-gradient(circle at 50% -10%, #35105d 0%, transparent 42%),
+        radial-gradient(ellipse at 50% -12%, #54118a 0%, transparent 40%),
         radial-gradient(circle at 12% 75%, rgba(136, 18, 166, 0.28), transparent 34%),
-        linear-gradient(145deg, #030109 0%, var(--deep-purple) 45%, #120421 100%);
+        radial-gradient(circle at 88% 64%, rgba(22, 31, 112, 0.3), transparent 30%),
+        linear-gradient(145deg, #020006 0%, var(--deep-purple) 45%, #160426 100%);
 }
 
 body::before,
@@ -69,14 +72,17 @@ body > * {
     color: #fff5ff;
     font-weight: bold;
     letter-spacing: 0.6px;
-    background: var(--glass);
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    border-top-color: rgba(255, 255, 255, 0.3);
-    border-radius: 14px;
+    background:
+        linear-gradient(90deg, rgba(32, 246, 255, 0.06), transparent 35%, rgba(255, 43, 214, 0.08)),
+        var(--panel-dark);
+    border: 1px solid rgba(32, 246, 255, 0.72);
+    border-right-color: rgba(255, 43, 214, 0.82);
+    border-radius: 4px;
     box-shadow:
         0 10px 35px rgba(0, 0, 0, 0.45),
         inset 0 1px 0 rgba(255, 255, 255, 0.08),
-        0 0 22px rgba(255, 43, 214, 0.14);
+        -8px 0 24px rgba(32, 246, 255, 0.18),
+        8px 0 24px rgba(255, 43, 214, 0.22);
     backdrop-filter: blur(14px) saturate(145%);
     -webkit-backdrop-filter: blur(14px) saturate(145%);
 }
@@ -142,18 +148,23 @@ body > * {
     background-image:
         radial-gradient(circle, rgba(255, 255, 255, 0.9) 0 1px, transparent 1.5px),
         radial-gradient(circle, rgba(32, 246, 255, 0.75) 0 1px, transparent 1.5px),
-        linear-gradient(rgba(255, 43, 214, 0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(32, 246, 255, 0.07) 1px, transparent 1px),
+        repeating-linear-gradient(0deg, rgba(255, 43, 214, 0.16) 0 1px, transparent 1px 32px),
+        repeating-linear-gradient(90deg, rgba(32, 246, 255, 0.13) 0 1px, transparent 1px 36px),
+        linear-gradient(72deg, transparent 49.6%, rgba(32, 246, 255, 0.11) 50%, transparent 50.4%),
+        linear-gradient(108deg, transparent 49.6%, rgba(255, 43, 214, 0.11) 50%, transparent 50.4%),
         radial-gradient(circle at 75% 18%, rgba(255, 43, 214, 0.3), transparent 24%),
         radial-gradient(circle at 20% 34%, rgba(32, 246, 255, 0.2), transparent 30%),
         linear-gradient(180deg, #100627 0%, #080b21 48%, #1b062a 100%);
-    background-position: 0 0, 35px 55px, 0 0, 0 0, 0 0, 0 0, 0 0;
-    background-size: 95px 95px, 145px 145px, 32px 32px, 32px 32px, auto, auto, auto;
-    border: 1px solid rgba(32, 246, 255, 0.75);
-    border-radius: 5px;
+    background-position: 0 0, 35px 55px, 0 52%, 0 52%, center bottom, center bottom, 0 0, 0 0, 0 0;
+    background-size: 95px 95px, 145px 145px, 100% 48%, 100% 48%, 100% 48%, 100% 48%, auto, auto, auto;
+    border: 2px solid var(--neon-cyan);
+    border-right-color: var(--neon-pink);
+    border-bottom-color: var(--neon-violet);
+    border-radius: 3px;
     box-shadow:
-        0 0 12px rgba(32, 246, 255, 0.62),
-        0 0 38px rgba(255, 43, 214, 0.32),
+        -6px 0 16px rgba(32, 246, 255, 0.72),
+        6px 0 22px rgba(255, 43, 214, 0.58),
+        0 0 48px rgba(157, 77, 255, 0.38),
         0 22px 60px rgba(0, 0, 0, 0.72),
         inset 0 0 28px rgba(105, 25, 148, 0.24);
     animation:
@@ -169,7 +180,7 @@ body > * {
 
 @keyframes board-stars {
     to {
-        background-position: -95px 190px, 180px 290px, 0 32px, 32px 0, 0 0, 0 0, 0 0;
+        background-position: -95px 190px, 180px 290px, 0 calc(52% + 32px), 36px 52%, center bottom, center bottom, 0 0, 0 0, 0 0;
     }
 }
 
