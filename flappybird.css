@@ -123,12 +123,14 @@ body > * {
         inset 0 0 14px rgba(255, 43, 214, 0.22);
 }
 
-#volume-value {
+#volume-value,
+#pipe-width-value {
     color: var(--neon-pink);
     text-shadow: 0 0 7px rgba(255, 43, 214, 0.9);
 }
 
-#volume-control {
+#volume-control,
+#pipe-width-control {
     width: 140px;
     accent-color: var(--neon-pink);
     cursor: pointer;
@@ -213,7 +215,8 @@ body > * {
         padding: 9px 14px;
     }
 
-    #volume-control {
+    #volume-control,
+    #pipe-width-control {
         width: 120px;
     }
 }
@@ -224,7 +227,8 @@ body > * {
         border-radius: 11px;
     }
 
-    #volume-control {
+    #volume-control,
+    #pipe-width-control {
         flex: 1 1 120px;
     }
 

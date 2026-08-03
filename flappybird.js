@@ -1,4 +1,3 @@
-
 //board
 let board;
 let boardWidth = 360;
@@ -21,10 +20,13 @@ let bird = {
 
 //pipes
 let pipeArray = [];
+let basePipeWidth = 64;
 let pipeWidth = 64; //width/height ratio = 384/3072 = 1/8
 let pipeHeight = 512;
 let pipeX = boardWidth;
 let pipeY = 0;
+let pipeScale = 1.0;
+
 
 let topPipeImg;
 let bottomPipeImg;
@@ -57,6 +59,7 @@ window.onload = function() {
     aiToggle.addEventListener("click", toggleAI);
     board.addEventListener("pointerdown", handlePointerControl);
     initializeAudio();
+    initializePipeControl();
 
     //draw flappy bird
     // context.fillStyle = "green";
@@ -126,7 +129,7 @@ function update() {
     }
 
     //clear pipes
-    while (pipeArray.length > 0 && pipeArray[0].x < -pipeWidth) {
+    while (pipeArray.length > 0 && pipeArray[0].x < -pipeArray[0].width) {
         pipeArray.shift(); //removes first element from the array
     }
 
@@ -143,7 +146,8 @@ function drawLaserObstacle(pipe) {
     context.save();
 
     let isTopPipe = pipe.y < 0;
-    let lipHeight = 24;
+    let currentScale = pipe.width / 64; // Calculate current scale dynamically based on width
+    let lipHeight = Math.max(12, Math.round(24 * currentScale));
     let lipY = isTopPipe ? pipe.y + pipe.height - lipHeight : pipe.y;
     let bodyGradient = context.createLinearGradient(pipe.x, 0, pipe.x + pipe.width, 0);
     bodyGradient.addColorStop(0, "#7b075f");
@@ -153,25 +157,34 @@ function drawLaserObstacle(pipe) {
     bodyGradient.addColorStop(1, "#4a063f");
 
     context.shadowColor = "#ff2bd6";
-    context.shadowBlur = 18;
+    context.shadowBlur = Math.max(5, Math.round(18 * currentScale));
     context.fillStyle = bodyGradient;
-    context.fillRect(pipe.x + 7, pipe.y, pipe.width - 14, pipe.height);
+    
+    let innerOffset = Math.max(2, Math.round(7 * currentScale));
+    context.fillRect(pipe.x + innerOffset, pipe.y, pipe.width - 2 * innerOffset, pipe.height);
 
     context.strokeStyle = "#ff63e2";
-    context.lineWidth = 3;
-    context.strokeRect(pipe.x + 8.5, pipe.y + 1.5, pipe.width - 17, pipe.height - 3);
+    let lineWidthVal = Math.max(1, Math.round(3 * currentScale));
+    context.lineWidth = lineWidthVal;
+    let strokeOffset = innerOffset + lineWidthVal / 2;
+    context.strokeRect(pipe.x + strokeOffset, pipe.y + lineWidthVal / 2, pipe.width - 2 * strokeOffset, pipe.height - lineWidthVal);
 
-    context.shadowBlur = 22;
+    context.shadowBlur = Math.max(5, Math.round(22 * currentScale));
     context.fillStyle = bodyGradient;
     context.fillRect(pipe.x, lipY, pipe.width, lipHeight);
     context.strokeStyle = "#ff8bea";
-    context.strokeRect(pipe.x + 1.5, lipY + 1.5, pipe.width - 3, lipHeight - 3);
+    context.strokeRect(pipe.x + lineWidthVal / 2, lipY + lineWidthVal / 2, pipe.width - lineWidthVal, lipHeight - lineWidthVal);
 
-    context.shadowBlur = 7;
+    context.shadowBlur = Math.max(2, Math.round(7 * currentScale));
     context.fillStyle = "rgba(255, 240, 252, 0.8)";
-    context.fillRect(pipe.x + 13, pipe.y + 3, 3, pipe.height - 6);
+    let lightOffset = Math.max(4, Math.round(13 * currentScale));
+    let lightWidth = Math.max(1, Math.round(3 * currentScale));
+    context.fillRect(pipe.x + lightOffset, pipe.y + 3, lightWidth, pipe.height - 6);
+    
     context.fillStyle = "rgba(48, 0, 46, 0.5)";
-    context.fillRect(pipe.x + pipe.width - 15, pipe.y + 3, 5, pipe.height - 6);
+    let darkOffset = Math.max(5, Math.round(15 * currentScale));
+    let darkWidth = Math.max(1, Math.round(5 * currentScale));
+    context.fillRect(pipe.x + pipe.width - darkOffset, pipe.y + 3, darkWidth, pipe.height - 6);
 
     context.restore();
 }
@@ -370,6 +383,23 @@ function initializeAudio() {
     });
 
     updateAudioVolumes();
+}
+
+function initializePipeControl() {
+    let pipeWidthControl = document.getElementById("pipe-width-control");
+    let pipeWidthValue = document.getElementById("pipe-width-value");
+
+    pipeWidthControl.addEventListener("input", function() {
+        let val = Number(pipeWidthControl.value);
+        pipeScale = val / 100;
+        pipeWidth = basePipeWidth * pipeScale;
+        pipeWidthValue.textContent = val + "%";
+
+        // Dynamically update the width of existing pipes on the board
+        for (let i = 0; i < pipeArray.length; i++) {
+            pipeArray[i].width = pipeWidth;
+        }
+    });
 }
 
 function updateAudioVolumes() {
