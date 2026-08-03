@@ -2,12 +2,17 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport", content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
         <title>Flappy Bird</title>
         <link rel="stylesheet" href="flappybird.css">
         <script src="flappybird.js"></script>
     </head>
     <body>
+        <div id="controls">
+            <button id="ai-toggle" type="button">AI MODE: OFF</button>
+            <label for="volume-control">VOLUME: <span id="volume-value">50%</span></label>
+            <input id="volume-control" type="range" min="0" max="100" value="50">
+        </div>
         <canvas id="board"></canvas>
     </body>
 </html>
