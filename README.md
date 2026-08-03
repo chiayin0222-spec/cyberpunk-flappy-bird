@@ -1,5 +1,8 @@
 # Cyberpunk Flappy Space Bird 🚀
 
+* **GitHub 專案網址**：[https://github.com/chiayin0222-spec/cyberpunk-flappy-bird](https://github.com/chiayin0222-spec/cyberpunk-flappy-bird)
+* **線上試玩 Demo**：[https://chiayin0222-spec.github.io/cyberpunk-flappy-bird/](https://chiayin0222-spec.github.io/cyberpunk-flappy-bird/)
+
 這是一款賽博龐克（Cyberpunk）風格的太空版 Flappy Bird 網頁遊戲。玩家將操控一艘高科技太空飛船，穿越致命的霓虹雷射障礙物！
 
 ---
